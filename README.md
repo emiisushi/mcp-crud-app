@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Person MCP CRUD App
 
-## Getting Started
+Production-ready Next.js app that supports Person CRUD directly in the UI and through a Model Context Protocol (MCP) server for Claude Desktop.
 
-First, run the development server:
+## Features
+
+- Person CRUD app with PostgreSQL integration
+- MCP server (`mcp-server/person-mcp-server.mjs`) exposing Person CRUD tools
+- Real-time MCP testing page (`/mcp-demo`)
+- Evaluator setup docs (`/mcp-setup`)
+- Architecture page (`/about`) and repository page (`/github`)
+
+## Environment Variables
+
+Create `.env.local`:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+DATABASE_URL=postgres://...
+APP_BASE_URL=http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+For production, set the same values in Vercel, with `APP_BASE_URL` equal to your Vercel URL.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Local Development
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
+Open `http://localhost:3000`.
 
-To learn more about Next.js, take a look at the following resources:
+## Run MCP Server
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run mcp:start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The MCP server forwards tool calls to your app endpoint: `POST /api/mcp/execute`.
 
-## Deploy on Vercel
+## Claude Desktop Config Example
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```json
+{
+	"mcpServers": {
+		"person-crud": {
+			"command": "node",
+			"args": ["/absolute/path/to/mcp-crud-app/mcp-server/person-mcp-server.mjs"],
+			"env": {
+				"APP_BASE_URL": "https://your-vercel-domain.vercel.app"
+			}
+		}
+	}
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy to Vercel
+
+```bash
+npm run build
+```
+
+Deploy using the Vercel dashboard or CLI. Ensure `DATABASE_URL` and `APP_BASE_URL` are configured in project settings.

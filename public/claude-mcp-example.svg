@@ -1,0 +1,16 @@
+<svg width="1200" height="700" viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Claude Desktop MCP CRUD example">
+  <rect width="1200" height="700" fill="#efe6d4"/>
+  <rect x="40" y="40" width="1120" height="620" rx="24" fill="#fffaf1" stroke="#1f3f34" stroke-width="3"/>
+  <text x="80" y="100" font-family="Segoe UI, sans-serif" font-size="30" fill="#1f3f34">Claude Desktop - MCP Tools: person-crud</text>
+  <rect x="80" y="140" width="1040" height="70" rx="14" fill="#f7efe2" stroke="#cabfa7"/>
+  <text x="100" y="183" font-family="Consolas, monospace" font-size="24" fill="#182620">Tool call: person_create {"name":"Ana","email":"ana@mail.com","age":27,"city":"Davao"}</text>
+  <rect x="80" y="230" width="1040" height="390" rx="14" fill="#101816"/>
+  <text x="105" y="275" font-family="Consolas, monospace" font-size="22" fill="#9ce5cf">Result:</text>
+  <text x="105" y="315" font-family="Consolas, monospace" font-size="20" fill="#b8f5df">{</text>
+  <text x="140" y="350" font-family="Consolas, monospace" font-size="20" fill="#b8f5df">"ok": true,</text>
+  <text x="140" y="385" font-family="Consolas, monospace" font-size="20" fill="#b8f5df">"tool": "person_create",</text>
+  <text x="140" y="420" font-family="Consolas, monospace" font-size="20" fill="#b8f5df">"data": { "id": 8, "name": "Ana", "email": "ana@mail.com", "age": 27, "city": "Davao" }</text>
+  <text x="105" y="455" font-family="Consolas, monospace" font-size="20" fill="#b8f5df">}</text>
+  <text x="105" y="520" font-family="Consolas, monospace" font-size="18" fill="#7bc7b2">Connected APP_BASE_URL: https://your-vercel-domain.vercel.app</text>
+  <text x="105" y="560" font-family="Consolas, monospace" font-size="18" fill="#7bc7b2">Endpoint: POST /api/mcp/execute</text>
+</svg>
