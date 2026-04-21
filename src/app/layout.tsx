@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { DM_Serif_Display, Space_Grotesk } from "next/font/google";
+import NavAuth from "@/components/nav-auth";
 import ThemeToggle from "@/components/theme-toggle";
 import "./globals.css";
 
@@ -63,12 +64,7 @@ export default function RootLayout({
               </nav>
               <div className="nav-actions">
                 <ThemeToggle />
-                <Link href="/sign-in" className="btn btn-outline nav-action-btn no-underline">
-                  Sign In
-                </Link>
-                <Link href="/sign-up" className="btn btn-primary nav-action-btn no-underline">
-                  Sign Up
-                </Link>
+                <NavAuth />
               </div>
             </div>
           </header>

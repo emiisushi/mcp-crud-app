@@ -30,6 +30,10 @@ body {
   font-family: var(--font-body), sans-serif;
 }
 
+html.theme-animating * {
+  transition: background-color 260ms ease, color 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
+}
+
 .app-bg {
   background:
     radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 35%),
@@ -85,6 +89,43 @@ body {
   font-size: 0.9rem;
 }
 
+.auth-menu-wrap {
+  position: relative;
+}
+
+.auth-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.auth-avatar {
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--accent);
+  color: #fff;
+}
+
+.auth-name {
+  max-width: 8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.auth-dropdown {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  right: 0;
+  min-width: 220px;
+  z-index: 30;
+}
+
 .nav-link {
   text-decoration: none;
   border: 1px solid color-mix(in srgb, var(--line) 54%, transparent);
@@ -98,7 +139,7 @@ body {
 
 .nav-link:hover {
   transform: translateY(-1px);
-  background: #fff;
+  background: color-mix(in srgb, var(--paper) 90%, #fff 10%);
 }
 
 .hero-title {

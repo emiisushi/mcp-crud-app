@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { getCurrentUser } from "@/lib/auth-client";
 
 type Person = {
   id: number;
@@ -35,7 +36,7 @@ export default function HomePage() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("Ready.");
-  const isSignedIn = false;
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   const isEditing = useMemo(() => editingId !== null, [editingId]);
 
@@ -65,6 +66,10 @@ export default function HomePage() {
   }
 
   useEffect(() => {
+    const syncAuth = () => setIsSignedIn(Boolean(getCurrentUser()));
+    syncAuth();
+    window.addEventListener("person-auth-changed", syncAuth);
+
     let cancelled = false;
 
     async function initialLoad() {
@@ -95,6 +100,7 @@ export default function HomePage() {
     void initialLoad();
 
     return () => {
+      window.removeEventListener("person-auth-changed", syncAuth);
       cancelled = true;
     };
   }, []);

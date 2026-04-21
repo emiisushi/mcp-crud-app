@@ -15,9 +15,14 @@ export default function ThemeToggle() {
 
   function toggleTheme() {
     const nextTheme: Theme = theme === "dark" ? "light" : "dark";
+    document.documentElement.classList.add("theme-animating");
     document.documentElement.dataset.theme = nextTheme;
     window.localStorage.setItem("app-theme", nextTheme);
     setTheme(nextTheme);
+
+    window.setTimeout(() => {
+      document.documentElement.classList.remove("theme-animating");
+    }, 280);
   }
 
   return (
