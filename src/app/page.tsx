@@ -31,7 +31,7 @@ const emptyForm: FormState = {
 export default function HomePage() {
   const [people, setPeople] = useState<Person[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [showSearchAuthPopup, setShowSearchAuthPopup] = useState(false);
+  const [authPromptTarget, setAuthPromptTarget] = useState<"search" | "add" | null>(null);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
@@ -122,6 +122,12 @@ export default function HomePage() {
 
   async function submitForm(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!isSignedIn) {
+      setAuthPromptTarget("add");
+      return;
+    }
+
     setStatus(isEditing ? "Updating person..." : "Creating person...");
 
     const payload = {
@@ -163,7 +169,13 @@ export default function HomePage() {
 
   function handleSearchFocus() {
     if (!isSignedIn) {
-      setShowSearchAuthPopup(true);
+      setAuthPromptTarget("search");
+    }
+  }
+
+  function handleAddPersonFocus() {
+    if (!isSignedIn) {
+      setAuthPromptTarget("add");
     }
   }
 
@@ -192,14 +204,16 @@ export default function HomePage() {
         />
       </div>
 
-      {showSearchAuthPopup ? (
+      {authPromptTarget ? (
         <div className="fixed inset-0 z-40 grid place-items-center bg-black/35 px-4">
           <div className="panel w-full max-w-md space-y-3">
             <h3 className="text-2xl" style={{ fontFamily: "var(--font-display)" }}>
               Sign In Required
             </h3>
             <p className="text-sm">
-              You need to sign in or sign up first before searching a person.
+              {authPromptTarget === "search"
+                ? "You need to sign in or sign up first before searching a person."
+                : "You need to sign in or sign up first before adding a person."}
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
               <Link href="/sign-in" className="btn btn-secondary no-underline">
@@ -208,7 +222,7 @@ export default function HomePage() {
               <Link href="/sign-up" className="btn btn-primary no-underline">
                 Sign Up
               </Link>
-              <button className="btn btn-outline" type="button" onClick={() => setShowSearchAuthPopup(false)}>
+              <button className="btn btn-outline" type="button" onClick={() => setAuthPromptTarget(null)}>
                 Close
               </button>
             </div>
@@ -226,12 +240,16 @@ export default function HomePage() {
               className="field"
               placeholder="Name"
               value={form.name}
+              readOnly={!isSignedIn}
+              onFocus={handleAddPersonFocus}
               onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
             />
             <input
               className="field"
               placeholder="Email"
               value={form.email}
+              readOnly={!isSignedIn}
+              onFocus={handleAddPersonFocus}
               onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))}
             />
             <input
@@ -239,16 +257,28 @@ export default function HomePage() {
               type="number"
               placeholder="Age"
               value={form.age}
+              readOnly={!isSignedIn}
+              onFocus={handleAddPersonFocus}
               onChange={(e) => setForm((prev) => ({ ...prev, age: e.target.value }))}
             />
             <input
               className="field"
               placeholder="City"
               value={form.city}
+              readOnly={!isSignedIn}
+              onFocus={handleAddPersonFocus}
               onChange={(e) => setForm((prev) => ({ ...prev, city: e.target.value }))}
             />
             <div className="flex gap-2 pt-2">
-              <button className="btn btn-primary" type="submit">
+              <button
+                className="btn btn-primary"
+                type="submit"
+                onClick={() => {
+                  if (!isSignedIn) {
+                    setAuthPromptTarget("add");
+                  }
+                }}
+              >
                 {isEditing ? "Update" : "Create"}
               </button>
               <button className="btn btn-outline" type="button" onClick={clearForm}>
