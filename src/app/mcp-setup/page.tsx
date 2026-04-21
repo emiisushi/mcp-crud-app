@@ -42,7 +42,7 @@ export default function MpcSetupPage() {
       "command": "node",
       "args": ["/absolute/path/to/mcp-crud-app/mcp-server/person-mcp-server.mjs"],
       "env": {
-        "APP_BASE_URL": "https://your-vercel-domain.vercel.app"
+        "APP_BASE_URL": "https://personsearch-omega.vercel.app"
       }
     }
   }

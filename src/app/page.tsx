@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 
 type Person = {
@@ -29,10 +30,12 @@ const emptyForm: FormState = {
 export default function HomePage() {
   const [people, setPeople] = useState<Person[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showSearchAuthPopup, setShowSearchAuthPopup] = useState(false);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("Ready.");
+  const isSignedIn = false;
 
   const isEditing = useMemo(() => editingId !== null, [editingId]);
 
@@ -152,6 +155,12 @@ export default function HomePage() {
     await loadPeople();
   }
 
+  function handleSearchFocus() {
+    if (!isSignedIn) {
+      setShowSearchAuthPopup(true);
+    }
+  }
+
   return (
     <section className="space-y-6">
       <div>
@@ -171,9 +180,35 @@ export default function HomePage() {
           className="field"
           placeholder="Search by name, email, or city..."
           value={searchTerm}
+          readOnly={!isSignedIn}
+          onFocus={handleSearchFocus}
           onChange={(event) => setSearchTerm(event.target.value)}
         />
       </div>
+
+      {showSearchAuthPopup ? (
+        <div className="fixed inset-0 z-40 grid place-items-center bg-black/35 px-4">
+          <div className="panel w-full max-w-md space-y-3">
+            <h3 className="text-2xl" style={{ fontFamily: "var(--font-display)" }}>
+              Sign In Required
+            </h3>
+            <p className="text-sm">
+              You need to sign in or sign up first before searching a person.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              <Link href="/sign-in" className="btn btn-secondary no-underline">
+                Sign In
+              </Link>
+              <Link href="/sign-up" className="btn btn-primary no-underline">
+                Sign Up
+              </Link>
+              <button className="btn btn-outline" type="button" onClick={() => setShowSearchAuthPopup(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       <div className="grid gap-6 lg:grid-cols-[340px_1fr]">
         <div className="panel">
