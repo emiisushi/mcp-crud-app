@@ -64,7 +64,7 @@ export default function MpcDemoPage() {
     <section className="space-y-6">
       <div>
         <p className="uppercase tracking-[0.24em] text-xs font-semibold text-[#1f3f34]">Live MCP Testing</p>
-        <h1 className="hero-title">/mcp-demo</h1>
+        <h1 className="hero-title">MCP Demo</h1>
         <p className="max-w-2xl text-sm sm:text-base">
           This panel uses the same tool contract as the MCP server. Each action executes live CRUD operations through
           the MCP execution endpoint.

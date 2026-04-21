@@ -13,7 +13,7 @@ export default function MpcSetupPage() {
     <section className="space-y-6">
       <div>
         <p className="uppercase tracking-[0.24em] text-xs font-semibold text-[#1f3f34]">Evaluator Guide</p>
-        <h1 className="hero-title">/mcp-setup</h1>
+        <h1 className="hero-title">MCP Setup</h1>
         <p className="max-w-3xl text-sm sm:text-base">
           Step-by-step setup instructions for connecting the Person CRUD MCP server to Claude Desktop and validating
           live database operations.

@@ -28,12 +28,25 @@ const emptyForm: FormState = {
 
 export default function HomePage() {
   const [people, setPeople] = useState<Person[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [form, setForm] = useState<FormState>(emptyForm);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("Ready.");
 
   const isEditing = useMemo(() => editingId !== null, [editingId]);
+
+  const filteredPeople = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+    if (!term) {
+      return people;
+    }
+
+    return people.filter((person) => {
+      const haystack = `${person.name} ${person.email} ${person.city}`.toLowerCase();
+      return haystack.includes(term);
+    });
+  }, [people, searchTerm]);
 
   async function loadPeople() {
     setLoading(true);
@@ -143,11 +156,23 @@ export default function HomePage() {
     <section className="space-y-6">
       <div>
         <p className="uppercase tracking-[0.24em] text-xs font-semibold text-[#1f3f34]">Week 3 + MCP</p>
-        <h1 className="hero-title">Person CRUD Dashboard</h1>
+        <h1 className="hero-title">Home</h1>
         <p className="max-w-2xl text-sm sm:text-base">
           Manage Person records directly in-app while exposing the same CRUD operations through MCP tools for
           Claude Desktop.
         </p>
+      </div>
+
+      <div className="panel space-y-3">
+        <h2 className="text-2xl" style={{ fontFamily: "var(--font-display)" }}>
+          Search User
+        </h2>
+        <input
+          className="field"
+          placeholder="Search by name, email, or city..."
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+        />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[340px_1fr]">
@@ -206,7 +231,7 @@ export default function HomePage() {
 
           {loading ? (
             <p className="mt-4">Loading...</p>
-          ) : people.length === 0 ? (
+          ) : filteredPeople.length === 0 ? (
             <p className="mt-4">No people yet. Add your first record.</p>
           ) : (
             <div className="mt-4 overflow-x-auto">
@@ -222,7 +247,7 @@ export default function HomePage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {people.map((person) => (
+                  {filteredPeople.map((person) => (
                     <tr key={person.id} className="border-t border-[#d7d0be]">
                       <td className="py-2 pr-2">{person.id}</td>
                       <td className="py-2 pr-2">{person.name}</td>

@@ -3,7 +3,7 @@ export default function AboutPage() {
     <section className="space-y-6">
       <div>
         <p className="uppercase tracking-[0.24em] text-xs font-semibold text-[#1f3f34]">Architecture</p>
-        <h1 className="hero-title">/about</h1>
+        <h1 className="hero-title">About</h1>
       </div>
 
       <div className="panel space-y-4">

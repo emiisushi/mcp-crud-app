@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { DM_Serif_Display, Space_Grotesk } from "next/font/google";
+import ThemeToggle from "@/components/theme-toggle";
 import "./globals.css";
 
 const display = DM_Serif_Display({
@@ -21,11 +22,11 @@ export const metadata: Metadata = {
 };
 
 const navLinks = [
-  { href: "/", label: "People" },
-  { href: "/mcp-demo", label: "MCP Demo" },
-  { href: "/mcp-setup", label: "MCP Setup" },
+  { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/github", label: "GitHub" },
+  { href: "/mcp-setup", label: "MCP Setup" },
+  { href: "/mcp-demo", label: "MCP Demo" },
 ];
 
 export default function RootLayout({
@@ -35,12 +36,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable} h-full antialiased`}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(() => {
+  const saved = localStorage.getItem('app-theme');
+  const preferredDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.dataset.theme = saved ?? (preferredDark ? 'dark' : 'light');
+})();`,
+          }}
+        />
+      </head>
       <body className="min-h-full app-bg">
         <div className="min-h-full">
           <header className="site-header">
             <div className="shell site-header-inner">
               <Link href="/" className="logo-mark">
-                Person MCP Lab
+                Person.search
               </Link>
               <nav className="nav-row" aria-label="Main Navigation">
                 {navLinks.map((link) => (
@@ -49,6 +61,15 @@ export default function RootLayout({
                   </Link>
                 ))}
               </nav>
+              <div className="nav-actions">
+                <ThemeToggle />
+                <Link href="/sign-in" className="btn btn-outline nav-action-btn no-underline">
+                  Sign In
+                </Link>
+                <Link href="/sign-up" className="btn btn-primary nav-action-btn no-underline">
+                  Sign Up
+                </Link>
+              </div>
             </div>
           </header>
           <main className="shell py-10">{children}</main>

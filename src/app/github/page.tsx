@@ -8,7 +8,7 @@ export default function GithubPage() {
     <section className="space-y-6">
       <div>
         <p className="uppercase tracking-[0.24em] text-xs font-semibold text-[#1f3f34]">Repository</p>
-        <h1 className="hero-title">/github</h1>
+        <h1 className="hero-title">GitHub</h1>
       </div>
 
       <div className="panel space-y-4">
